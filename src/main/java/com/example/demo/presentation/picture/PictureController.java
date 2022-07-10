@@ -1,9 +1,15 @@
 package com.example.demo.presentation.picture;
 
 import com.example.demo.application.picture.PictureService;
+import com.example.demo.application.picture.dto.PictureDTO;
 import com.example.demo.application.util.pagination.PaginationDTO;
 import com.example.demo.presentation.responseentity.ResponseEntityUtil;
 import com.example.demo.presentation.responseentity.response.SuccessfulRequestResponseEntity;
+import jdk.jfr.ContentType;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -41,12 +47,12 @@ public class PictureController {
         );
     }
 
-    @GetMapping(path = "{id}")
-    public ResponseEntity<Object> findById(@PathVariable Long id) {
-        return ResponseEntityUtil.generateSuccessfulRequestResponseEntity(
-                new SuccessfulRequestResponseEntity<>(
-                        pictureService.findById(id)
-                )
-        );
+    @GetMapping(path = "{id}", produces = MediaType.IMAGE_JPEG_VALUE)
+    public ResponseEntity<byte[]> findById(@PathVariable Long id) {
+        PictureDTO dto = pictureService.findById(id);
+        final HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.IMAGE_JPEG);
+        headers.set("Content-Disposition", "attachment; filename=" + dto.getName() + ".jpg");
+        return new ResponseEntity<>(dto.getPicBytes(), headers, HttpStatus.OK);
     }
 }
