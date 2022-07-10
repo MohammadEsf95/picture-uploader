@@ -5,8 +5,6 @@ import com.example.demo.application.picture.dto.PictureDTO;
 import com.example.demo.application.util.pagination.PaginationDTO;
 import com.example.demo.presentation.responseentity.ResponseEntityUtil;
 import com.example.demo.presentation.responseentity.response.SuccessfulRequestResponseEntity;
-import jdk.jfr.ContentType;
-import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.UUID;
 
 @RestController
 @RequestMapping(path = "/pictures")
